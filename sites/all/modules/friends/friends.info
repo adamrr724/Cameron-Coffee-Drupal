@@ -1,0 +1,5 @@
+name = Friends
+description = Display each friend page.
+package = My First Modules
+core = 7.x
+files[] = friends.module

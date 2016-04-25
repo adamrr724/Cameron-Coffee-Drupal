@@ -1,0 +1,5 @@
+name = Cooldules
+description = Consolidate all of our cool modules!
+package = Cooldules
+core = 7.x
+files[] = cooldules.module

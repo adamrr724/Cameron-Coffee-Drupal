@@ -1,0 +1,23 @@
+<?php
+
+function pet_menu()
+{
+    $items = array();
+    $items['pet'] = array(
+        'title' => "My Favorite Pet",
+        'page callback' => 'pet_display',
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+    return $items;
+}
+
+function pet_display()
+{
+    return '
+        <p>My cat\'s name is Pepe</p>
+        <p>Here is a picture of him!</p>
+        <br>
+        <img src="sites/all/modules/images/cat.jpg" width=200px>
+    ';
+}

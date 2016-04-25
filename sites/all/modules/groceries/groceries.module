@@ -1,0 +1,50 @@
+<?php
+
+function groceries_menu()
+{
+    $items = array();
+    $items['groceries'] = array(
+        'title' => "My Grocery List",
+        'page callback' => 'groceries_display',
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+    return $items;
+}
+
+function groceries_display()
+{
+    $grocery_list = array(
+        "Eggs" => array(
+            "quantity" => 2,
+            "cost" => 1.99,
+        ),
+        "Bananas" => array(
+            "quantity" => 3,
+            "cost" => 0.89,
+        ),
+        "Milk" => array(
+            "quantity" => 1,
+            "cost" => 2.15,
+        ),
+    );
+
+    $result = "";
+    $all_groceries_cost = array();
+    foreach ($grocery_list as $key_grocery_item =>
+    $value) {
+        $quantity = $value['quantity'];
+        $cost = $value['cost'];
+        $total_cost = $quantity * $cost;
+        $result = $result . "<p>" . $key_grocery_item . "</p>";
+        foreach ($grocery_list[$key_grocery_item] as $key => $value_item) {
+            $result = $result . "<p>" . $key . ": " . $value_item .  "</p>";
+        }
+        $result = $result . "<p>Total cost of item: " . $total_cost .  "</p>";
+        array_push($all_groceries_cost, $total_cost);
+
+    }
+    $all_groceries_cost_sum = array_sum($all_groceries_cost);
+    return $result . "<br><p>Total: $" . $all_groceries_cost_sum . "</p>";
+
+}

@@ -1,0 +1,166 @@
+<?php
+
+function cooldules_menu()
+{
+    $items = array();
+
+// ITEMS
+
+    // FAVORITES MODULE
+    $favorites = array(
+        "movies" => array(
+            "The Shining",
+            "Night of the Living Dead",
+            "Hook",
+        ),
+        "books" => array(
+            "White Jazz",
+            "Moonwalking with Einstein",
+            "Where's Waldo",
+        ),
+        "songs" => array(
+            "Lithium",
+            "Ring Around the Rosie",
+            "Soda",
+        ));
+
+    foreach ($favorites as $favorite => $favorite_array) {
+        $items['favorites/' . $favorite] =
+        array(
+            'title' => "Favorite $favorite",
+            'page callback' => 'favorites_list',
+            'page arguments' => array($favorite_array),
+            'access callback' => TRUE,
+            'type' => MENU_NORMAL_ITEM,
+        );
+    }
+
+    // FRIENDS MODULE
+
+    $friends = array("bob", "joe", "tom");
+    foreach ($friends as $friend) {
+        $items['friends/' . $friend] = array(
+            'title' => "Hello $friend!",
+            'page callback' => 'hi_friend',
+            'access callback' => TRUE,
+            'type' => MENU_NORMAL_ITEM,
+        );
+    }
+
+    // PET MODULE
+
+    $items['pet'] = array(
+        'title' => "My Favorite Pet",
+        'page callback' => 'pet_display',
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    // GROCERIES MODULE
+
+    $items['groceries'] = array(
+        'title' => "My Grocery List",
+        'page callback' => 'groceries_display',
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    // GREETINGS MODULE
+
+    $items['hello_friend'] = array(
+        'title' => "Hello Friend!",
+        'page callback' => 'say_hello',
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+      );
+    $items['goodbye'] = array(
+        'title' => 'Goodbye Friend!',
+        'page callback' => 'say_goodbye',
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+      );
+
+
+    return $items;
+}
+
+// FUNCTIONS
+
+
+    // FRIENDS FUNCTION
+    function hi_friend()
+    {
+        return '<p>You\'re still my friend!!!!!! :)))</p>';
+    }
+
+    // FAVORITES FUNCTION
+
+    function favorites_list($favorite_array)
+    {
+        $items_list = "";
+        foreach ($favorite_array as $item) {
+            $items_list = $items_list . "<p>" . $item . "</p>";
+        }
+        return $items_list;
+    }
+
+    // PET FUNCTION
+
+    function pet_display()
+    {
+        return '
+            <p>My cat\'s name is Pepe</p>
+            <p>Here is a picture of him!</p>
+            <br>
+            <img src="sites/all/modules/images/cat.jpg" width=200px>
+        ';
+    }
+
+    // GROCERIES FUNCTION
+
+    function groceries_display()
+    {
+        $grocery_list = array(
+            "Eggs" => array(
+                "quantity" => 2,
+                "cost" => 1.99,
+            ),
+            "Bananas" => array(
+                "quantity" => 3,
+                "cost" => 0.89,
+            ),
+            "Milk" => array(
+                "quantity" => 1,
+                "cost" => 2.15,
+            ),
+        );
+
+        $result = "";
+        $all_groceries_cost = array();
+        foreach ($grocery_list as $key_grocery_item =>
+        $value) {
+            $quantity = $value['quantity'];
+            $cost = $value['cost'];
+            $total_cost = $quantity * $cost;
+            $result = $result . "<p>" . $key_grocery_item . "</p>";
+            foreach ($grocery_list[$key_grocery_item] as $key => $value_item) {
+                $result = $result . "<p>" . $key . ": " . $value_item .  "</p>";
+            }
+            $result = $result . "<p>Total cost of item: " . $total_cost .  "</p>";
+            array_push($all_groceries_cost, $total_cost);
+
+        }
+        $all_groceries_cost_sum = array_sum($all_groceries_cost);
+        return $result . "<br><p>Total: $" . $all_groceries_cost_sum . "</p>";
+
+    }
+
+    // GREETINGS FUNCTION
+
+    function say_hello() {
+        return'<p>Hello My Dear Friend!</p>';
+    }
+
+    function say_goodbye() {
+        return '<p>Goodbye Friend! :)</p>';
+    }

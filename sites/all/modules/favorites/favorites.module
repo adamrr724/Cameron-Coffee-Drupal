@@ -1,0 +1,43 @@
+<?php
+
+function favorites_menu()
+{
+    $items = array();
+    $favorites = array(
+        "movies" => array(
+            "The Shining",
+            "Night of the Living Dead",
+            "Hook",
+        ),
+        "books" => array(
+            "White Jazz",
+            "Moonwalking with Einstein",
+            "Where's Waldo",
+        ),
+        "songs" => array(
+            "Lithium",
+            "Ring Around the Rosie",
+            "Soda",
+        ));
+
+    foreach ($favorites as $favorite => $favorite_array) {
+        $items['favorites/' . $favorite] =
+        array(
+            'title' => "Favorite $favorite",
+            'page callback' => 'favorites_list',
+            'page arguments' => array($favorite_array),
+            'access callback' => TRUE,
+            'type' => MENU_NORMAL_ITEM,
+        );
+    }
+    return $items;
+}
+
+function favorites_list($favorite_array)
+{
+    $items_list = "";
+    foreach ($favorite_array as $item) {
+        $items_list = $items_list . "<p>" . $item . "</p>";
+    }
+    return $items_list;
+}

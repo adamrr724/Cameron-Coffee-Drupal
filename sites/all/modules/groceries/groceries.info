@@ -1,0 +1,5 @@
+name = Groceries
+description = A menu of grocery list items!
+package = Cooldules
+core = 7.x
+files[] = groceries.module
