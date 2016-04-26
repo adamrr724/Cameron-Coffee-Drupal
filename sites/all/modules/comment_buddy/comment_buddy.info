@@ -1,0 +1,5 @@
+name = Comment Buddy
+description = Display message when a user creates, edits, or deletes a comment.
+package = Cooldules
+core = 7.x
+file[] = comment_buddy.module

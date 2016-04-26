@@ -4,11 +4,11 @@ function sum_menu()
 {
     $items = array();
     $items['sum'] = array(
-    'title' => 'Calculate sum',
-    'type' => MENU_NORMAL_ITEM,
-    'access callback' => TRUE,
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('sum_form'),
+        'title' => 'Calculate sum',
+        'type' => MENU_NORMAL_ITEM,
+        'access callback' => TRUE,
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('sum_form'),
     );
 
     $items['success'] = array(

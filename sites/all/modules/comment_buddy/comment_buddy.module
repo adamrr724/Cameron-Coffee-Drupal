@@ -1,0 +1,25 @@
+<?php
+
+function comment_buddy_menu() {
+    $items = array();
+    $items['comment_buddy'] = array(
+        'title' => 'Display a message when a comment is created, edited, or deleted',
+        'type' => MENU_CALLBACK,
+        'access callback' => TRUE,
+    );
+    return $items;
+}
+
+
+function comment_buddy_comment_insert() {
+    drupal_set_message("Thank you!");
+    // $_GET['destination'] = 'comment_buddy';
+}
+
+function comment_buddy_comment_update() {
+    drupal_set_message("Your comment has been changed.");
+}
+
+function comment_buddy_comment_delete() {
+    drupal_set_message("Your comment has been DELETED.  Guess you regretted it, huh?");
+}
