@@ -1,0 +1,86 @@
+<?php
+
+function user_greeting_menu() {
+  $items = array();
+  $items['user_hello_friend'] = array(
+      'title' => "Hello Friend!",
+      'page callback' => 'say_hello_user',
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+  $items['user_goodbye'] = array(
+      'title' => 'Goodbye Friend!',
+      'page callback' => 'say_goodbye_user',
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+  $items['administrator_hello_friend'] = array(
+      'title' => 'Hello Admin!',
+      'page callback' => 'say_hello_user',
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+  $items['administrator_goodbye'] = array(
+      'title' => 'Goodbye Admin!',
+      'page callback' => 'say_goodbye_user',
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+  $items['moderator_hello_friend'] = array(
+      'title' => 'Hello Moderator!',
+      'page callback' => 'say_hello_user',
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+  $items['moderator_goodbye'] = array(
+      'title' => 'Goodbye Moderator!',
+      'page callback' => 'say_goodbye_user',
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+  $items['VIP_hello_friend'] = array(
+      'title' => 'Hello VIP!',
+      'page callback' => 'say_hello_user',
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+  $items['VIP_goodbye'] = array(
+      'title' => 'Goodbye VIP!',
+      'page callback' => 'say_goodbye_user',
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+  return $items;
+}
+
+function say_hello_user() {
+    return'<p>Nice to see you!</p>';
+}
+
+function say_goodbye_user() {
+    return '<p>Come back soon!</p>';
+}
+
+function user_greeting_user_login(&$edit, $account) {
+    if (in_array('administrator', $account->roles)) {
+        $_GET['destination'] = 'administrator_hello_friend';
+    }  else if (in_array('moderator', $account->roles)) {
+        $_GET['destination'] = 'moderator_hello_friend';
+    }  else if (in_array('VIP', $account->roles)) {
+        $_GET['destination'] = 'VIP_hello_friend';
+    }  else {
+        $_GET['destination'] = 'user_hello_friend';
+    }
+}
+
+function user_greeting_user_logout($account) {
+    if (in_array('administrator', $account->roles)) {
+        $_GET['destination'] = 'administrator_goodbye';
+    }  else if (in_array('moderator', $account->roles)) {
+        $_GET['destination'] = 'moderator_goodbye';
+    }  else if (in_array('VIP', $account->roles)) {
+        $_GET['destination'] = 'VIP_goodbye';
+    }  else {
+        $_GET['destination'] = 'user_goodbye';
+    }
+}

@@ -1,0 +1,5 @@
+name = User Greeting
+description = Display greeting for different roles on login.
+package = My First Modules
+core = 7.x
+files[] = user_greeting.module
