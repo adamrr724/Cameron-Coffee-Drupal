@@ -1,0 +1,5 @@
+name = Sum
+description = Display the sum of two numbers using a form for input.
+package = Cooldules
+core = 7.x
+file[] = sum.module

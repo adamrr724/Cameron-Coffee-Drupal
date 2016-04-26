@@ -71,13 +71,13 @@ function cooldules_menu()
         'title' => "Hello Friend!",
         'page callback' => 'say_hello',
         'access callback' => TRUE,
-        'type' => MENU_NORMAL_ITEM,
+        'type' => MENU_CALLBACK,
       );
     $items['goodbye'] = array(
         'title' => 'Goodbye Friend!',
         'page callback' => 'say_goodbye',
         'access callback' => TRUE,
-        'type' => MENU_NORMAL_ITEM,
+        'type' => MENU_CALLBACK,
       );
 
 
@@ -163,4 +163,12 @@ function cooldules_menu()
 
     function say_goodbye() {
         return '<p>Goodbye Friend! :)</p>';
+    }
+
+    function cooldules_user_login() {
+        $_GET['destination'] = 'hello_friend';
+    }
+
+    function cooldules_user_logout() {
+        $_GET['destination'] = 'goodbye';
     }
