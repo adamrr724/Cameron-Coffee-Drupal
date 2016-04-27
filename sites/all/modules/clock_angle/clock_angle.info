@@ -1,0 +1,5 @@
+name = Clock Angle
+description = A module to return the angle between to the user inputted hands of a clock
+package = Cooldules
+core = 7.x
+files[] = clock_angle.module

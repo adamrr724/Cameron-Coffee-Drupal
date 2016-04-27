@@ -1,0 +1,14 @@
+1. Make menu item for clock angle page 🤓
+2. Make FORM on clock angle page💡
+3. SUBMIT form function to redirect to success page 🔪
+    - pass information to SUCCESS FUNCTION 🎊
+4. MENU CALLBACK to create success page 🌅
+5. SUCCESS FUNCTION prints results on success page 💎
+
+
+LOGIC:
+
+1. return angle of hour hand from noon 💰
+2. return angle of minute hand from 12 🎤
+3. return difference between hour and minute hand (ABSOLUTE VALUE)
+4. IF difference > 180, subtract from 360.
