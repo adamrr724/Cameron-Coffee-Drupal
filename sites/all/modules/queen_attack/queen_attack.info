@@ -1,0 +1,5 @@
+name = Queen Attack
+description = Queen Attack calculator module
+package = Cooldules
+core = 7.x
+files[] = queen_attack.module

@@ -1,0 +1,14 @@
+1. Make menu item for queen attack page 🍄
+2. Make FORM on queen attack page 💄
+3. SUBMIT form function to redirect to success page 💥
+    - pass information to SUCCESS FUNCTION 💯
+4. MENU CALLBACK to create success page 🍻
+5. SUCCESS FUNCTION prints results on success page 🍾
+
+Logic:
+
+1. return two coordinate inputs (in 8x8 board)
+2. see if they are horizontally aligned
+3. see if they are vertically aligned
+4. see if they are diagonally aligned
+5. return TRUE or FALSE

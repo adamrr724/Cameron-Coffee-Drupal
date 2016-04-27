@@ -1,0 +1,73 @@
+<?php
+
+function queen_attack_menu() {
+    $items = array();
+    $items['queen_attack'] = array(
+        'title' => 'Queen Attack',
+        'type' => MENU_NORMAL_ITEM,
+        'access callback' => TRUE,
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('queen_attack_form'),
+    );
+    $items['queen_success'] = array(
+        'title' => "Queen Attack Results",
+        'type' => MENU_CALLBACK,
+        'access callback' => TRUE,
+        'page callback' => 'queen_attack_success',
+    );
+    return $items;
+}
+
+function queen_attack_form() {
+    $form = array();
+    $form['queen_input_x'] = array(
+        '#title' => 'Queen X',
+        '#type' => 'textfield',
+        '#description' => t('Queen X Coordinate'),
+    );
+    $form['queen_input_y'] = array(
+        '#title' => 'Queen Y',
+        '#type' => 'textfield',
+        '#description' => t('Queen Y Coordinate'),
+    );
+    $form['piece_input_x'] = array(
+        '#title' => 'Piece X',
+        '#type' => 'textfield',
+        '#description' => t('Piece X Coordinate'),
+    );
+    $form['piece_input_y'] = array(
+        '#title' => 'Piece Y',
+        '#type' => 'textfield',
+        '#description' => t('Piece Y Coordinate'),
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'ATTACK!',
+    );
+    return $form;
+}
+
+function queen_attack_form_submit($form, &$form_state) {
+    $queen_x = $form_state['values']['queen_input_x'];
+    $queen_y = $form_state['values']['queen_input_y'];
+    $piece_x = $form_state['values']['piece_input_x'];
+    $piece_y = $form_state['values']['piece_input_y'];
+
+    if ($queen_x === $piece_x || $queen_y === $piece_y) {
+        $can_attack = TRUE;
+    } else if (abs($queen_x - $piece_x) === abs($queen_y - $piece_y)) {
+        $can_attack = TRUE;
+    } else $can_attack = FALSE;
+
+    $_SESSION['queen_attack_output'] = $can_attack;
+    $form_state['redirect'] = 'queen_success';
+}
+
+function queen_attack_success() {
+    $results = $_SESSION['queen_attack_output'];
+    if ($results) {
+        return "QUEEN CAN ATTACK!";
+    } else {
+        return "Queen cannot attack.";
+    }
+}
