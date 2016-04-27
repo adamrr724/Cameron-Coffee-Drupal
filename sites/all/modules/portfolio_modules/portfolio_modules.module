@@ -1,0 +1,350 @@
+<?php
+
+function portfolio_modules_menu(){
+    $items = array();
+
+    // QUEEN ATTACK MENU
+    $items['queen_attack'] = array(
+        'title' => 'Queen Attack',
+        'type' => MENU_NORMAL_ITEM,
+        'access callback' => TRUE,
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('queen_attack_form'),
+    );
+    $items['queen_success'] = array(
+        'title' => "Queen Attack Results",
+        'type' => MENU_CALLBACK,
+        'access callback' => TRUE,
+        'page callback' => 'queen_attack_success',
+    );
+
+    // TITLE CASE MENU
+
+    $items['title_case'] = array(
+        'title' => 'Title Case',
+        'type' => MENU_NORMAL_ITEM,
+        'access callback' => TRUE,
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('title_case_form'),
+    );
+    $items['title_success'] = array(
+        'title' => 'Title Case Success',
+        'type' => MENU_CALLBACK,
+        'access callback' => TRUE,
+        'page callback' => 'title_case_success',
+    );
+
+    // PING PONG MENU
+
+    $items['ping_pong'] = array(
+        'title' => 'Ping Pong',
+        'type' => MENU_NORMAL_ITEM,
+        'access callback' => TRUE,
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('ping_pong_form'),
+    );
+
+    $items['pp_success'] = array(
+        'title' => 'Ping Ponged!',
+        'type' => MENU_CALLBACK,
+        'access callback' => TRUE,
+        'page callback' => 'ping_pong_success',
+    );
+
+    // SUM MENU
+
+    $items['sum'] = array(
+        'title' => 'Calculate sum',
+        'type' => MENU_NORMAL_ITEM,
+        'access callback' => TRUE,
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('sum_form'),
+    );
+
+    $items['success'] = array(
+        'title' => 'Success',
+        'type' => MENU_CALLBACK,
+        'access callback' => TRUE,
+        'page callback' => 'sum_success',
+    );
+
+    // GREETING MENU
+
+    $items['user_hello_friend'] = array(
+        'title' => "Hello Friend!",
+        'page callback' => 'say_hello_user',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+      );
+    $items['user_goodbye'] = array(
+        'title' => 'Goodbye Friend!',
+        'page callback' => 'say_goodbye_user',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+      );
+    $items['administrator_hello_friend'] = array(
+        'title' => 'Hello Admin!',
+        'page callback' => 'say_hello_user',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+      );
+    $items['administrator_goodbye'] = array(
+        'title' => 'Goodbye Admin!',
+        'page callback' => 'say_goodbye_user',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+      );
+    $items['moderator_hello_friend'] = array(
+        'title' => 'Hello Moderator!',
+        'page callback' => 'say_hello_user',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+      );
+    $items['moderator_goodbye'] = array(
+        'title' => 'Goodbye Moderator!',
+        'page callback' => 'say_goodbye_user',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+      );
+    $items['VIP_hello_friend'] = array(
+        'title' => 'Hello VIP!',
+        'page callback' => 'say_hello_user',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+      );
+    $items['VIP_goodbye'] = array(
+        'title' => 'Goodbye VIP!',
+        'page callback' => 'say_goodbye_user',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+      );
+
+    return $items;
+}
+
+    // QUEEN ATTACK FUNCTIONS
+
+    function queen_attack_form() {
+        $form = array();
+        $form['queen_input_x'] = array(
+            '#title' => 'Queen X',
+            '#type' => 'textfield',
+            '#description' => t('Queen X Coordinate'),
+        );
+        $form['queen_input_y'] = array(
+            '#title' => 'Queen Y',
+            '#type' => 'textfield',
+            '#description' => t('Queen Y Coordinate'),
+        );
+        $form['piece_input_x'] = array(
+            '#title' => 'Piece X',
+            '#type' => 'textfield',
+            '#description' => t('Piece X Coordinate'),
+        );
+        $form['piece_input_y'] = array(
+            '#title' => 'Piece Y',
+            '#type' => 'textfield',
+            '#description' => t('Piece Y Coordinate'),
+        );
+        $form['submit'] = array(
+            '#type' => 'submit',
+            '#value' => 'ATTACK!',
+        );
+        return $form;
+    }
+
+    function queen_attack_form_submit($form, &$form_state) {
+        $queen_x = $form_state['values']['queen_input_x'];
+        $queen_y = $form_state['values']['queen_input_y'];
+        $piece_x = $form_state['values']['piece_input_x'];
+        $piece_y = $form_state['values']['piece_input_y'];
+
+        if ($queen_x === $piece_x || $queen_y === $piece_y) {
+            $can_attack = TRUE;
+        } else if (abs($queen_x - $piece_x) === abs($queen_y - $piece_y)) {
+            $can_attack = TRUE;
+        } else $can_attack = FALSE;
+
+        $_SESSION['queen_attack_output'] = $can_attack;
+        $form_state['redirect'] = 'queen_success';
+    }
+
+    function queen_attack_success() {
+        $results = $_SESSION['queen_attack_output'];
+        if ($results) {
+            return "QUEEN CAN ATTACK!";
+        } else {
+            return "Queen cannot attack.";
+        }
+    }
+
+    // TITLE CASE FUNCTIONS
+
+    function title_case_form() {
+        $form = array();
+        $form['input'] = array(
+            '#title' => 'Input',
+            '#type' => 'textfield',
+            '#description' => t('Please enter your sentence to be converted to title case!'),
+        );
+        $form['submit'] = array(
+            '#type' => 'submit',
+            '#value' => 'Convert!'
+        );
+        return $form;
+    }
+
+    function title_case_form_submit($form, &$form_state) {
+        $input_string = $form_state['values']['input'];
+        $exploded_string = explode(" ", $input_string);
+
+        $result =  array();
+        foreach($exploded_string as $word) {
+            $new_word = ucfirst($word);
+            array_push($result, $new_word);
+        }
+
+        $result = implode(" ", $result);
+
+        $_SESSION['title_case_output'] = $result;
+        $form_state['redirect'] = 'title_success';
+    }
+
+    function title_case_success() {
+        $results = $_SESSION['title_case_output'];
+        return $results;
+    }
+
+    // PING PONG FUNCTIONS
+
+    function ping_pong_form() {
+        $form = array();
+        $form['input_number'] = array(
+            '#title' => 'Number to Ping Pong',
+            '#type' => 'textfield',
+            '#description' => t('Please enter a number to count up to'),
+        );
+        $form['submit'] = array(
+            '#type' => 'submit',
+            '#value' => 'Ping Pong',
+        );
+        return $form;
+    }
+
+    function ping_pong_form_submit($form, &$form_state) {
+        $input_number =  $form_state['values']['input_number'];
+
+        $results = array();
+        $i = 1;
+        for ($i = 1; $i <= $input_number; $i++) {
+            if ($i % 15 === 0) {
+                array_push($results,'ping pong');
+            } else if ($i % 5 === 0) {
+                array_push($results,'pong');
+            } else if ($i % 3 === 0) {
+                array_push($results,'ping');
+            } else {
+                array_push($results, $i);
+            }
+        }
+
+        $_SESSION['ping_pong_output'] = $results;
+        $form_state['redirect'] = 'pp_success';
+    }
+
+    function ping_pong_success() {
+        $results = $_SESSION['ping_pong_output'];
+        $output = "";
+        foreach ($results as $result) {
+            $output .= ("<p>" . $result . "</p>");
+        }
+        return $output;
+    }
+
+    // SUM FUNCTIONS
+
+    function sum_form()
+    {
+        $form = array();
+        $form['left_number'] = array(
+            '#title' => 'Left Number',
+            '#type' => 'textfield',
+            '#description' => t('Please enter your starting number.'),
+        );
+
+        $form['right_number'] = array(
+            '#title' => 'Right Number',
+            '#type' => 'textfield',
+            '#description' => t('Please enter a number to add to the starting number.'),
+        );
+
+        $form['submit'] = array(
+            '#type' => 'submit',
+            '#value' => 'Calculate Sum',
+        );
+
+        return $form;
+    }
+
+    function sum_form_submit($form, &$form_state)
+    {
+        $first_number = $form_state['values']['left_number'];
+        $second_number = $form_state['values']['right_number'];
+        $sum = $first_number + $second_number;
+        $_SESSION['sum_output'] = $sum;
+        $form_state['redirect'] = 'success';
+    }
+
+    function sum_success()
+    {
+        $answer = $_SESSION['sum_output'];
+        return "You calculated a sum! The answer is $answer";
+    }
+
+    // GREETING FUNCTIONS
+
+    function say_hello_user() {
+        return'<p>Nice to see you!</p>';
+    }
+
+    function say_goodbye_user() {
+        return '<p>Come back soon!</p>';
+    }
+
+    function portfolio_modules_user_login(&$edit, $account) {
+        if (in_array('administrator', $account->roles)) {
+            $_GET['destination'] = 'administrator_hello_friend';
+        }  else if (in_array('moderator', $account->roles)) {
+            $_GET['destination'] = 'moderator_hello_friend';
+        }  else if (in_array('VIP', $account->roles)) {
+            $_GET['destination'] = 'VIP_hello_friend';
+        }  else {
+            $_GET['destination'] = 'user_hello_friend';
+        }
+    }
+
+    function portfolio_modules_user_logout($account) {
+        if (in_array('administrator', $account->roles)) {
+            $_GET['destination'] = 'administrator_goodbye';
+        }  else if (in_array('moderator', $account->roles)) {
+            $_GET['destination'] = 'moderator_goodbye';
+        }  else if (in_array('VIP', $account->roles)) {
+            $_GET['destination'] = 'VIP_goodbye';
+        }  else {
+            $_GET['destination'] = 'user_goodbye';
+        }
+    }
+
+    // COMMENT BUDDY FUNCTIONS
+
+    function portfolio_modules_comment_insert() {
+        drupal_set_message("Thank you!");
+    }
+
+    function portfolio_modules_comment_update() {
+        drupal_set_message("Your comment has been changed.");
+    }
+
+    function portfolio_modules_comment_delete() {
+        drupal_set_message("Your comment has been DELETED.  Guess you regretted it, huh?");
+    }
