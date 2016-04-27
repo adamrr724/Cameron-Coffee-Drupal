@@ -1,0 +1,5 @@
+name = Ping Pong
+description = A module to display the ping pong coding challenge
+package = Cooldules
+core = 7.x
+files[] = ping_pong.module
