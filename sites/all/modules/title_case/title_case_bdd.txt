@@ -1,0 +1,16 @@
+1. Make menu item for title case page 👍
+2. Make FORM on title case page 💥
+3. SUBMIT form function to redirect to success page 🍻
+    - pass information to SUCCESS FUNCTION 💯
+4. MENU CALLBACK to create success page 🎉
+5. SUCCESS FUNCTION prints results on success page
+
+
+
+Logic steps:
+
+1. Pass a string 🍾
+3. split into array of words (split on space) 🌽
+4. ucfirst each word 🍕
+5. implode array 🍰
+6. return string 🎃
