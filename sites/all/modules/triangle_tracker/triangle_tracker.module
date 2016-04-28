@@ -58,5 +58,12 @@ function triangle_tracker_form_submit($form, &$form_state) {
 }
 
 function triangle_success() {
-    
+    $results = $_SESSION['triangle_tracker_output'];
+    if ($results == "equilateral") {
+        return "You made an equilateral triangle!";
+    } else if ($results == "isosceles") {
+        return "You made an isosceles triangle!";
+    } else if ($results == "scalene") {
+        return "You made a scalene triangle!";
+    } else return "You didn't make a triangle";
 }

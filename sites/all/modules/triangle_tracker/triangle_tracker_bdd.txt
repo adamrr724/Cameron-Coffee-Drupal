@@ -3,7 +3,7 @@
 3. SUBMIT form function to redirect to success page 🐶
     - pass information to SUCCESS FUNCTION 🐳
 4. MENU CALLBACK to create success page 🍄
-5. SUCCESS FUNCTION prints results on success page
+5. SUCCESS FUNCTION prints results on success page 🎄
 
 Logic:
 
