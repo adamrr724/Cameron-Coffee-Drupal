@@ -25,6 +25,7 @@ function ping_pong_form() {
         '#title' => 'Number to Ping Pong',
         '#type' => 'textfield',
         '#description' => t('Please enter a number to count up to'),
+        '#element_validate' => array('element_validate_integer_positive'),
     );
     $form['submit'] = array(
         '#type' => 'submit',
