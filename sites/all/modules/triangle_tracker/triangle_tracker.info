@@ -1,0 +1,5 @@
+name = Triangle Tracker
+description = A module to allow identify types of triangles based on user input
+package = Cooldules
+core = 7.x
+files[] = triangle_tracker.module
