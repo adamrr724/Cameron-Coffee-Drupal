@@ -1,0 +1,5 @@
+name = Rock, Paper, Scissors Game
+description = "Rock Paper Scissors Game. So Fun."
+package = Cooldules
+core = 7.x
+file[] = rps_game.module

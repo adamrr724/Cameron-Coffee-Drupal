@@ -1,0 +1,15 @@
+1. Make menu item for triangle tracker page 🐳
+2. Make FORM on rps_game page 🐍
+3. Create CALLBACK_MENU page, for player 2 form.
+4. Make Form on player 2 input page
+5. SUBMIT form function to redirect to success page
+    - pass information to SUCCESS FUNCTION
+6. MENU CALLBACK to create success page
+7. SUCCESS FUNCTION prints results on success page
+8. ADD VALIDATION TO FORMS
+
+Logic:
+
+1. return two inputs
+2. return winner
+3. BOOYAKASHA

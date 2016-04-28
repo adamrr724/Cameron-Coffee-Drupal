@@ -56,7 +56,7 @@ function queen_attack_form() {
 }
 
 function element_validate_chess_range($element) {
-    if ($element['#value'] < 1 || $element['#value'] > 8) {
+    if ($element['#value'] > 8) {
         form_error($element, t('Numbers must be between 1 and 8!'));
     }
 }

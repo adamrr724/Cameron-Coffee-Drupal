@@ -1,0 +1,92 @@
+<?php
+
+function rps_game_menu() {
+    $items = array();
+    $items['rps_game'] = array(
+        'title' => 'Rock Paper Scissors!!!!',
+        'type' => MENU_NORMAL_ITEM,
+        'access callback' => TRUE,
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('rps_player_1_form')
+    );
+    $items['player_2_form'] = array(
+        'title' => 'Rock Paper Scissors!!!!',
+        'type' => MENU_CALLBACK,
+        'access callback' => TRUE,
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('rps_player_2_form')
+    );
+    $items['rps_results'] = array(
+        'title' => 'Rock Paper Scissors Results!!!!',
+        'type' => MENU_CALLBACK,
+        'access callback' => TRUE,
+        'page callback' => 'rps_final_results',
+    );
+    return $items;
+}
+
+function rps_player_1_form() {
+    $form = array();
+    $form['player_1_input'] = array(
+        '#title' => 'Player 1 Choice',
+        '#type' => 'textfield',
+        '#description' => t('Please choose either rock, paper, or scissors.'),
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Submit',
+    );
+    return $form;
+}
+
+function rps_player_1_form_submit($form, &$form_state) {
+    $player_1_throw = $form_state['values']['player_1_input'];
+
+    $_SESSION['player_1_output'] = $player_1_throw;
+    $form_state['redirect'] = 'player_2_form';
+}
+
+function rps_player_2_form() {
+    $form = array();
+    $form['player_2_input'] = array(
+        '#title' => 'Player 2 Choice',
+        '#type' => 'textfield',
+        '#description' => t('Please choose either rock, paper, or scissors.'),
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Submit',
+    );
+    return $form;
+}
+
+function rps_player_2_form_submit($form, &$form_state) {
+    $player_1_throw = $_SESSION['player_1_output'];
+    $player_2_throw = $form_state['values']['player_2_input'];
+    if ($player_1_throw === 'scissors') {
+        if ($player_2_throw === 'paper') {
+            $results = "Player 1 Wins";
+        } else if ($player_2_throw === 'rock') {
+            $results = "Player 2 Wins!";
+        } else $results = "TIE! PLAY AGAIN!";
+    } else if ($player_1_throw === 'paper') {
+        if ($player_2_throw === 'rock') {
+            $results = "Player 1 Wins!";
+        } else if ($player_2_throw === 'scissors') {
+            $results = "Player 2 Wins";
+        } else $results = "TIE! PLAY AGAIN!";
+    } else if ($player_1_throw === 'rock') {
+        if ($player_2_throw === 'scissors') {
+            $results = "Player 1 Wins";
+        } else if ($player_2_throw === 'paper') {
+            $results = "Player 2 Wins!";
+        } else $results = "TIE! PLAY AGAIN!";
+    }
+    $_SESSION['rps_game_results'] = $results;
+    $form_state['redirect'] = 'rps_results';
+}
+
+function rps_final_results() {
+    $results = $_SESSION['rps_game_results'];
+    return $results;
+}
