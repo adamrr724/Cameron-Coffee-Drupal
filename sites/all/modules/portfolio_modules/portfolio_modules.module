@@ -127,12 +127,52 @@ function portfolio_modules_menu(){
         'access callback' => TRUE,
         'page callback' => 'drupal_get_form',
         'page arguments' => array('clock_angle_form'),
+
     );
     $items['clock_success'] = array(
         'title' => 'Clock Angle Results',
         'type' => MENU_CALLBACK,
         'access callback' => TRUE,
         'page callback' => 'clock_angle_success',
+    );
+
+    // RPS GAME
+
+    $items['rps_game'] = array(
+        'title' => 'Rock Paper Scissors',
+        'type' => MENU_NORMAL_ITEM,
+        'access callback' => TRUE,
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('rps_player_1_form')
+    );
+    $items['player_2_form'] = array(
+        'title' => 'Rock Paper Scissors',
+        'type' => MENU_CALLBACK,
+        'access callback' => TRUE,
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('rps_player_2_form')
+    );
+    $items['rps_results'] = array(
+        'title' => 'Rock Paper Scissors Results',
+        'type' => MENU_CALLBACK,
+        'access callback' => TRUE,
+        'page callback' => 'rps_final_results',
+    );
+
+    // TRIANGLE TRACKER MENU
+
+    $items['triangle_tracker'] = array(
+        'title' => "Triangle Tracker",
+        'type' => MENU_NORMAL_ITEM,
+        'access callback' => TRUE,
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('triangle_tracker_form'),
+    );
+    $items['triangle_success'] = array(
+        'title' => "Triangle Tracker Results",
+        'type' => MENU_CALLBACK,
+        'access callback' => TRUE,
+        'page callback' => 'triangle_success',
     );
 
     return $items;
@@ -146,27 +186,47 @@ function portfolio_modules_menu(){
             '#title' => 'Queen X',
             '#type' => 'textfield',
             '#description' => t('Queen X Coordinate'),
+            '#element_validate' => array('element_validate_integer_positive', 'element_validate_chess_range'),
+            '#required' => TRUE,
         );
         $form['queen_input_y'] = array(
             '#title' => 'Queen Y',
             '#type' => 'textfield',
             '#description' => t('Queen Y Coordinate'),
+            '#element_validate' => array('element_validate_integer_positive', 'element_validate_chess_range'),
+            '#required' => TRUE,
         );
         $form['piece_input_x'] = array(
             '#title' => 'Piece X',
             '#type' => 'textfield',
             '#description' => t('Piece X Coordinate'),
+            '#element_validate' => array('element_validate_integer_positive', 'element_validate_chess_range'),
+            '#required' => TRUE,
         );
         $form['piece_input_y'] = array(
             '#title' => 'Piece Y',
             '#type' => 'textfield',
             '#description' => t('Piece Y Coordinate'),
+            '#element_validate' => array('element_validate_integer_positive', 'element_validate_chess_range'),
+            '#required' => TRUE,
         );
         $form['submit'] = array(
             '#type' => 'submit',
             '#value' => 'ATTACK!',
         );
         return $form;
+    }
+
+    function element_validate_chess_range($element) {
+        if ($element['#value'] > 8) {
+            form_error($element, t('Numbers must be between 1 and 8!'));
+        }
+    }
+
+    function queen_attack_form_validate($form, &$form_state) {
+        if ($form_state['values']['queen_input_x'] == $form_state['values']['piece_input_x'] && $form_state['values']['queen_input_y'] == $form_state['values']['piece_input_y']) {
+            form_set_error('queen_input_x', 'Pieces cannot share a space!');
+        }
     }
 
     function queen_attack_form_submit($form, &$form_state) {
@@ -193,6 +253,7 @@ function portfolio_modules_menu(){
             return "Queen cannot attack.";
         }
     }
+
 
     // TITLE CASE FUNCTIONS
 
@@ -239,6 +300,8 @@ function portfolio_modules_menu(){
             '#title' => 'Number to Ping Pong',
             '#type' => 'textfield',
             '#description' => t('Please enter a number to count up to'),
+            '#element_validate' => array('element_validate_integer_positive'),
+            '#required' => TRUE,
         );
         $form['submit'] = array(
             '#type' => 'submit',
@@ -277,6 +340,7 @@ function portfolio_modules_menu(){
         return $output;
     }
 
+
     // SUM FUNCTIONS
 
     function sum_form()
@@ -286,12 +350,16 @@ function portfolio_modules_menu(){
             '#title' => 'Left Number',
             '#type' => 'textfield',
             '#description' => t('Please enter your starting number.'),
+            '#element_validate' => array('element_validate_number', 'element_validate_range', 'element_validate_even'),
+            '#required' => TRUE,
         );
 
         $form['right_number'] = array(
             '#title' => 'Right Number',
             '#type' => 'textfield',
             '#description' => t('Please enter a number to add to the starting number.'),
+            '#element_validate' => array('element_validate_number', 'element_validate_range', 'element_validate_even'),
+            '#required' => TRUE,
         );
 
         $form['submit'] = array(
@@ -316,6 +384,19 @@ function portfolio_modules_menu(){
         $answer = $_SESSION['sum_output'];
         return "You calculated a sum! The answer is $answer";
     }
+
+    function element_validate_range($element) {
+        if ($element['#value'] > 50 || $element['#value'] < -50) {
+            form_error($element, t('Numbers must be less than 50 or greater than -50.'));
+        }
+    }
+
+    function element_validate_even($element) {
+        if ($element['#value'] % 2 != 0) {
+            form_error($element, t('Numbers must be even!'));
+        }
+    }
+
 
     // GREETING FUNCTIONS
 
@@ -373,17 +454,33 @@ function portfolio_modules_menu(){
             '#title' => 'Hour Input',
             '#type' => 'textfield',
             '#description' => t('Put in an hour input.'),
+            '#element_validate' => array('element_validate_integer_positive','element_validate_clock_hour'),
+            '#required' => TRUE,
         );
         $form['minute_input'] = array(
             '#title' => 'Minute Input',
             '#type' => 'textfield',
             '#description' => t('Put in a minute input.'),
+            '#element_validate' => array('element_validate_integer_positive','element_validate_clock_minute'),
+            '#required' => TRUE,
         );
         $form['submit'] = array(
             '#type' => 'submit',
             '#value' => 'Find the Angle',
         );
         return $form;
+    }
+
+    function element_validate_clock_minute($element) {
+        if ($element['#value'] > 59 || $element['#value'] < 0) {
+            form_error($element, t('Please choose a minute value between 0 and 59!'));
+        }
+    }
+
+    function element_validate_clock_hour($element) {
+        if ($element['#value'] > 12 || $element['#value'] < 1) {
+            form_error($element, t('Please choose an hour value between 1 and 12!'));
+        }
     }
 
     function clock_angle_form_submit($form, &$form_state) {
@@ -405,4 +502,139 @@ function portfolio_modules_menu(){
     function clock_angle_success() {
         $results = $_SESSION['clock_angle_output'];
         return "Your answer is " . $results . " degrees!";
+    }
+
+    // RPS GAME FUNCTIONS
+
+    function rps_player_1_form() {
+        $form = array();
+        $form['player_1_input'] = array(
+            '#title' => 'Player 1 Choice',
+            '#type' => 'textfield',
+            '#description' => t('Please choose either rock, paper, or scissors.'),
+        );
+        $form['submit'] = array(
+            '#type' => 'submit',
+            '#value' => 'Submit',
+        );
+        return $form;
+    }
+
+    function rps_player_1_form_submit($form, &$form_state) {
+        $player_1_throw = $form_state['values']['player_1_input'];
+
+        $_SESSION['player_1_output'] = $player_1_throw;
+        $form_state['redirect'] = 'player_2_form';
+    }
+
+    function rps_player_2_form() {
+        $form = array();
+        $form['player_2_input'] = array(
+            '#title' => 'Player 2 Choice',
+            '#type' => 'textfield',
+            '#description' => t('Please choose either rock, paper, or scissors.'),
+        );
+        $form['submit'] = array(
+            '#type' => 'submit',
+            '#value' => 'Submit',
+        );
+        return $form;
+    }
+
+    function rps_player_2_form_submit($form, &$form_state) {
+        $player_1_throw = $_SESSION['player_1_output'];
+        $player_2_throw = $form_state['values']['player_2_input'];
+        if ($player_1_throw === 'scissors') {
+            if ($player_2_throw === 'paper') {
+                $results = "Player 1 Wins <br> <img src='http://baap.graphics/wp-content/uploads/2015/01/Cover3.jpg'>";
+            } else if ($player_2_throw === 'rock') {
+                $results = "Player 2 Wins! <br> <img src='https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQP_YCgdqkPZwV9WoEbPbhwsLEW96SoXCKSvTp1F359ZDk2Yr2f'>";
+            } else $results = "TIE! PLAY AGAIN! <br> <img src='http://www.teampedia.net/wiki/images/0/0b/Rock.png'>";
+        } else if ($player_1_throw === 'paper') {
+            if ($player_2_throw === 'rock') {
+                $results = "Player 1 Wins! <br> <img src='http://baap.graphics/wp-content/uploads/2015/01/Cover3.jpg'>";
+            } else if ($player_2_throw === 'scissors') {
+                $results = "Player 2 Wins! <br> <img src='https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQP_YCgdqkPZwV9WoEbPbhwsLEW96SoXCKSvTp1F359ZDk2Yr2f'>";
+            } else $results = "TIE! PLAY AGAIN! <br> <img src='http://www.teampedia.net/wiki/images/0/0b/Rock.png'>";
+        } else if ($player_1_throw === 'rock') {
+            if ($player_2_throw === 'scissors') {
+                $results = "Player 1 Wins! <br> <img src='http://baap.graphics/wp-content/uploads/2015/01/Cover3.jpg'>";
+            } else if ($player_2_throw === 'paper') {
+                $results = "Player 2 Wins! <br> <img src='https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQP_YCgdqkPZwV9WoEbPbhwsLEW96SoXCKSvTp1F359ZDk2Yr2f'>";
+            } else $results = "TIE! PLAY AGAIN! <br> <img src='http://www.teampedia.net/wiki/images/0/0b/Rock.png'>";
+        }
+        $_SESSION['rps_game_results'] = $results;
+        $form_state['redirect'] = 'rps_results';
+    }
+
+    function rps_final_results() {
+        $results = $_SESSION['rps_game_results'];
+        return $results;
+    }
+
+    // TRIANGLE TRACKER FUNCTIONS
+
+    function triangle_tracker_form() {
+        $form = array();
+        $form['triangle_side_1'] = array(
+            '#title' => 'Side 1',
+            '#type' => 'textfield',
+            '#description' => t('Side 1 Length'),
+            '#element_validate' => array('element_validate_integer_positive'),
+            '#required' => TRUE,
+        );
+        $form['triangle_side_2'] = array(
+            '#title' => 'Side 2',
+            '#type' => 'textfield',
+            '#description' => t('Side 2 Length'),
+            '#element_validate' => array('element_validate_integer_positive'),
+            '#required' => TRUE,
+        );
+        $form['triangle_side_3'] = array(
+            '#title' => 'Side 3',
+            '#type' => 'textfield',
+            '#description' => t('Side 3 Length'),
+            '#element_validate' => array('element_validate_integer_positive'),
+            '#required' => TRUE,
+        );
+        $form['submit'] = array(
+            '#type' => 'submit',
+            '#value' => 'Submit',
+        );
+        return $form;
+    }
+
+    function triangle_tracker_form_validate($form, &$form_state) {
+        if (($form_state['values']['triangle_side_1'] + $form_state['values']['triangle_side_2'] <= $form_state['values']['triangle_side_3']) || ($form_state['values']['triangle_side_1'] + $form_state['values']['triangle_side_3'] <= $form_state['values']['triangle_side_2']) || ($form_state['values']['triangle_side_2'] + $form_state['values']['triangle_side_3'] <= $form_state['values']['triangle_side_1'])) {
+            form_set_error('triangle_side_1', 'Those lengths do not make a triangle! Try again!');
+        }
+    }
+    function triangle_tracker_form_submit($form, &$form_state) {
+        $side_1 = $form_state['values']['triangle_side_1'];
+        $side_2 = $form_state['values']['triangle_side_2'];
+        $side_3 = $form_state['values']['triangle_side_3'];
+
+        if ($side_1 == $side_2 && $side_2 == $side_3) {
+            $results = "equilateral";
+        }
+        if (($side_1 == $side_2 && $side_1 != $side_3) || ($side_1 == $side_3 && $side_2 != $side_3) || ($side_3 == $side_2 && $side_1 != $side_3)) {
+            $results = "isosceles";
+        }
+        if ($side_1 != $side_2 && $side_1 != $side_3 && $side_2 != $side_3) {
+            $results = "scalene";
+        }
+
+        $_SESSION['triangle_tracker_output'] = $results;
+        $form_state['redirect'] = 'triangle_success';
+    }
+
+    function triangle_success() {
+        $results = $_SESSION['triangle_tracker_output'];
+        if ($results == "equilateral") {
+            return "You made an equilateral triangle!";
+        } else if ($results == "isosceles") {
+            return "You made an isosceles triangle!";
+        } else if ($results == "scalene") {
+            return "You made a scalene triangle!";
+        }
     }
