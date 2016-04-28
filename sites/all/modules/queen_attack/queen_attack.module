@@ -60,6 +60,13 @@ function element_validate_chess_range($element) {
         form_error($element, t('Numbers must be between 1 and 8!'));
     }
 }
+
+function queen_attack_form_validate($form, &$form_state) {
+    if ($form_state['values']['queen_input_x'] == $form_state['values']['piece_input_x'] && $form_state['values']['queen_input_y'] == $form_state['values']['piece_input_y']) {
+        form_set_error('queen_input_x', 'Pieces cannot share a space!');
+    }
+}
+
 function queen_attack_form_submit($form, &$form_state) {
     $queen_x = $form_state['values']['queen_input_x'];
     $queen_y = $form_state['values']['queen_input_y'];
