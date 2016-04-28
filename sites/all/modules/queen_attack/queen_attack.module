@@ -24,21 +24,29 @@ function queen_attack_form() {
         '#title' => 'Queen X',
         '#type' => 'textfield',
         '#description' => t('Queen X Coordinate'),
+        '#element_validate' => array('element_validate_integer_positive'),
+        '#required' => TRUE,
     );
     $form['queen_input_y'] = array(
         '#title' => 'Queen Y',
         '#type' => 'textfield',
         '#description' => t('Queen Y Coordinate'),
+        '#element_validate' => array('element_validate_integer_positive'),
+        '#required' => TRUE,
     );
     $form['piece_input_x'] = array(
         '#title' => 'Piece X',
         '#type' => 'textfield',
         '#description' => t('Piece X Coordinate'),
+        '#element_validate' => array('element_validate_integer_positive'),
+        '#required' => TRUE,
     );
     $form['piece_input_y'] = array(
         '#title' => 'Piece Y',
         '#type' => 'textfield',
         '#description' => t('Piece Y Coordinate'),
+        '#element_validate' => array('element_validate_integer_positive'),
+        '#required' => TRUE,
     );
     $form['submit'] = array(
         '#type' => 'submit',
