@@ -512,6 +512,8 @@ function portfolio_modules_menu(){
             '#title' => 'Player 1 Choice',
             '#type' => 'textfield',
             '#description' => t('Please choose either rock, paper, or scissors.'),
+            '#element_validate' => array('element_validate_rps'),
+            '#required' => TRUE,
         );
         $form['submit'] = array(
             '#type' => 'submit',
@@ -533,6 +535,8 @@ function portfolio_modules_menu(){
             '#title' => 'Player 2 Choice',
             '#type' => 'textfield',
             '#description' => t('Please choose either rock, paper, or scissors.'),
+            '#element_validate' => array('element_validate_rps'),
+            '#required' => TRUE,
         );
         $form['submit'] = array(
             '#type' => 'submit',
@@ -542,8 +546,8 @@ function portfolio_modules_menu(){
     }
 
     function rps_player_2_form_submit($form, &$form_state) {
-        $player_1_throw = $_SESSION['player_1_output'];
-        $player_2_throw = $form_state['values']['player_2_input'];
+        $player_1_throw = strtolower($_SESSION['player_1_output']);
+        $player_2_throw = strtolower($form_state['values']['player_2_input']);
         if ($player_1_throw === 'scissors') {
             if ($player_2_throw === 'paper') {
                 $results = "Player 1 Wins <br> <img src='http://baap.graphics/wp-content/uploads/2015/01/Cover3.jpg'>";
@@ -565,6 +569,12 @@ function portfolio_modules_menu(){
         }
         $_SESSION['rps_game_results'] = $results;
         $form_state['redirect'] = 'rps_results';
+    }
+
+    function element_validate_rps($element) {
+        if ((strtolower($element['#value']) != 'rock') && (strtolower($element['#value']) != 'paper') && (strtolower($element['#value']) != 'scissors')) {
+            form_error($element, t('Please enter rock, paper, or scissors!'));
+        }
     }
 
     function rps_final_results() {

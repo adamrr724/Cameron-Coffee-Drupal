@@ -69,22 +69,22 @@ function rps_player_2_form_submit($form, &$form_state) {
     $player_2_throw = strtolower($form_state['values']['player_2_input']);
     if ($player_1_throw === 'scissors') {
         if ($player_2_throw === 'paper') {
-            $results = "Player 1 Wins";
+            $results = "Player 1 Wins <br> <img src='http://baap.graphics/wp-content/uploads/2015/01/Cover3.jpg'>";
         } else if ($player_2_throw === 'rock') {
-            $results = "Player 2 Wins!";
-        } else $results = "TIE! PLAY AGAIN!";
+            $results = "Player 2 Wins! <br> <img src='https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQP_YCgdqkPZwV9WoEbPbhwsLEW96SoXCKSvTp1F359ZDk2Yr2f'>";
+        } else $results = "TIE! PLAY AGAIN! <br> <img src='http://www.teampedia.net/wiki/images/0/0b/Rock.png'>";
     } else if ($player_1_throw === 'paper') {
         if ($player_2_throw === 'rock') {
-            $results = "Player 1 Wins!";
+            $results = "Player 1 Wins! <br> <img src='http://baap.graphics/wp-content/uploads/2015/01/Cover3.jpg'>";
         } else if ($player_2_throw === 'scissors') {
-            $results = "Player 2 Wins";
-        } else $results = "TIE! PLAY AGAIN!";
+            $results = "Player 2 Wins! <br> <img src='https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQP_YCgdqkPZwV9WoEbPbhwsLEW96SoXCKSvTp1F359ZDk2Yr2f'>";
+        } else $results = "TIE! PLAY AGAIN! <br> <img src='http://www.teampedia.net/wiki/images/0/0b/Rock.png'>";
     } else if ($player_1_throw === 'rock') {
         if ($player_2_throw === 'scissors') {
-            $results = "Player 1 Wins";
+            $results = "Player 1 Wins! <br> <img src='http://baap.graphics/wp-content/uploads/2015/01/Cover3.jpg'>";
         } else if ($player_2_throw === 'paper') {
-            $results = "Player 2 Wins!";
-        } else $results = "TIE! PLAY AGAIN!";
+            $results = "Player 2 Wins! <br> <img src='https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQP_YCgdqkPZwV9WoEbPbhwsLEW96SoXCKSvTp1F359ZDk2Yr2f'>";
+        } else $results = "TIE! PLAY AGAIN! <br> <img src='http://www.teampedia.net/wiki/images/0/0b/Rock.png'>";
     }
     $_SESSION['rps_game_results'] = $results;
     $form_state['redirect'] = 'rps_results';
