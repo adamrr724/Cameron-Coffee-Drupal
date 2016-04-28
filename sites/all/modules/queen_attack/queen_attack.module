@@ -24,28 +24,28 @@ function queen_attack_form() {
         '#title' => 'Queen X',
         '#type' => 'textfield',
         '#description' => t('Queen X Coordinate'),
-        '#element_validate' => array('element_validate_integer_positive'),
+        '#element_validate' => array('element_validate_integer_positive', 'element_validate_chess_range'),
         '#required' => TRUE,
     );
     $form['queen_input_y'] = array(
         '#title' => 'Queen Y',
         '#type' => 'textfield',
         '#description' => t('Queen Y Coordinate'),
-        '#element_validate' => array('element_validate_integer_positive'),
+        '#element_validate' => array('element_validate_integer_positive', 'element_validate_chess_range'),
         '#required' => TRUE,
     );
     $form['piece_input_x'] = array(
         '#title' => 'Piece X',
         '#type' => 'textfield',
         '#description' => t('Piece X Coordinate'),
-        '#element_validate' => array('element_validate_integer_positive'),
+        '#element_validate' => array('element_validate_integer_positive', 'element_validate_chess_range'),
         '#required' => TRUE,
     );
     $form['piece_input_y'] = array(
         '#title' => 'Piece Y',
         '#type' => 'textfield',
         '#description' => t('Piece Y Coordinate'),
-        '#element_validate' => array('element_validate_integer_positive'),
+        '#element_validate' => array('element_validate_integer_positive', 'element_validate_chess_range'),
         '#required' => TRUE,
     );
     $form['submit'] = array(
@@ -55,6 +55,11 @@ function queen_attack_form() {
     return $form;
 }
 
+function element_validate_chess_range($element) {
+    if ($element['#value'] < 1 || $element['#value'] > 8) {
+        form_error($element, t('Numbers must be between 1 and 8!'));
+    }
+}
 function queen_attack_form_submit($form, &$form_state) {
     $queen_x = $form_state['values']['queen_input_x'];
     $queen_y = $form_state['values']['queen_input_y'];
