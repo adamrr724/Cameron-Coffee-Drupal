@@ -1,0 +1,6 @@
+name = Ajax Link Test
+description = Display Time with Ajax.
+package = Epicodus Examples
+core = 7.x
+scripts[] = ajax_link.js
+files[] = ajax_link.module
